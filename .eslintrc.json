@@ -1,0 +1,20 @@
+{
+  "env": {
+    "node": true,
+    "es6": true,
+    "commonjs": false
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 11
+  },
+  "extends": [
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
