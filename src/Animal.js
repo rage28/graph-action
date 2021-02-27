@@ -1,5 +1,5 @@
-const { Model } = require("objection");
-const Person = require("./Person");
+import { Model } from "objection";
+import Person from "./Person.js";
 
 class Animal extends Model {
   // Table name is the only required property.
@@ -26,26 +26,24 @@ class Animal extends Model {
 
   // This object defines the relations to other models.
   static get relationMappings() {
-    return async () => {
-      // One way to prevent circular references
-      // is to require the model classes here.
+    // One way to prevent circular references
+    // is to require the model classes here.
 
-      return {
-        owner: {
-          relation: Model.BelongsToOneRelation,
+    return {
+      owner: {
+        relation: Model.BelongsToOneRelation,
 
-          // The related model. This can be either a Model subclass constructor or an
-          // absolute file path to a module that exports one.
-          modelClass: Person,
+        // The related model. This can be either a Model subclass constructor or an
+        // absolute file path to a module that exports one.
+        modelClass: Person,
 
-          join: {
-            from: "animals.ownerId",
-            to: "persons.id",
-          },
+        join: {
+          from: "animals.ownerId",
+          to: "persons.id",
         },
-      };
+      },
     };
   }
 }
 
-module.exports = Animal;
+export default Animal;

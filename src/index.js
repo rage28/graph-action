@@ -1,11 +1,11 @@
-const { Model } = require("objection");
-const Knex = require("knex");
-const Person = require("./src/Person");
+import { Model } from "objection";
+import Knex from "knex";
+import Person from "./Person.js";
 
 Model.knex(
   Knex({
     client: "postgresql",
-    connection: "postgres://user1:password1@localhost:5432/graph-action",
+    connection: "postgres://tanjiro:unlock@localhost:5432/fnd-postgresql-db",
   })
 );
 

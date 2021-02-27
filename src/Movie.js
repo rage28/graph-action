@@ -1,5 +1,5 @@
-const { Model } = require("objection");
-const Person = require("./Person");
+import { Model } from "objection";
+import Person from "./Person.js";
 
 class Movie extends Model {
   // Table name is the only required property.
@@ -23,28 +23,26 @@ class Movie extends Model {
   }
 
   static get relationMappings() {
-    return async () => {
-      return {
-        actors: {
-          relation: Model.ManyToManyRelation,
+    return {
+      actors: {
+        relation: Model.ManyToManyRelation,
 
-          // The related model. This can be either a Model subclass constructor or an
-          // absolute file path to a module that exports one.
-          modelClass: Person,
+        // The related model. This can be either a Model subclass constructor or an
+        // absolute file path to a module that exports one.
+        modelClass: Person,
 
-          join: {
-            from: "movies.id",
-            // ManyToMany relation needs the `through` object to describe the join table.
-            through: {
-              from: "persons_movies.movieId",
-              to: "persons_movies.personId",
-            },
-            to: "persons.id",
+        join: {
+          from: "movies.id",
+          // ManyToMany relation needs the `through` object to describe the join table.
+          through: {
+            from: "persons_movies.movieId",
+            to: "persons_movies.personId",
           },
+          to: "persons.id",
         },
-      };
+      },
     };
   }
 }
 
-module.exports = Movie;
+export default Movie;

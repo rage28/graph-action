@@ -1,6 +1,6 @@
-const { Model } = require("objection");
-const Animal = require("./Animal");
-const Movie = require("./Movie");
+import { Model } from "objection";
+import Animal from "./Animal.js";
+import Movie from "./Movie.js";
 
 class Person extends Model {
   // Table name is the only required property.
@@ -61,56 +61,53 @@ class Person extends Model {
 
   // This object defines the relations to other models.
   static get relationMappings() {
-    return async () => {
-      // One way to prevent circular references
-      // is to require the model classes here.
-
-      return {
-        pets: {
-          relation: Model.HasManyRelation,
-          // The related model. This can be either a Model subclass constructor or an
-          // absolute file path to a module that exports one.
-          modelClass: Animal,
-          join: {
-            from: "persons.id",
-            to: "animals.ownerId",
-          },
+    // One way to prevent circular references
+    // is to require the model classes here.
+    return {
+      pets: {
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model subclass constructor or an
+        // absolute file path to a module that exports one.
+        modelClass: Animal,
+        join: {
+          from: "persons.id",
+          to: "animals.ownerId",
         },
+      },
 
-        movies: {
-          relation: Model.ManyToManyRelation,
-          modelClass: Movie,
-          join: {
-            from: "persons.id",
-            // ManyToMany relation needs the `through` object to describe the join table.
-            through: {
-              from: "persons_movies.personId",
-              to: "persons_movies.movieId",
-            },
-            to: "movies.id",
+      movies: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Movie,
+        join: {
+          from: "persons.id",
+          // ManyToMany relation needs the `through` object to describe the join table.
+          through: {
+            from: "persons_movies.personId",
+            to: "persons_movies.movieId",
           },
+          to: "movies.id",
         },
+      },
 
-        children: {
-          relation: Model.HasManyRelation,
-          modelClass: Person,
-          join: {
-            from: "persons.id",
-            to: "persons.parentId",
-          },
+      children: {
+        relation: Model.HasManyRelation,
+        modelClass: Person,
+        join: {
+          from: "persons.id",
+          to: "persons.parentId",
         },
+      },
 
-        parent: {
-          relation: Model.BelongsToOneRelation,
-          modelClass: Person,
-          join: {
-            from: "persons.parentId",
-            to: "persons.id",
-          },
+      parent: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Person,
+        join: {
+          from: "persons.parentId",
+          to: "persons.id",
         },
-      };
+      },
     };
   }
 }
 
-module.exports = Person;
+export default Person;
